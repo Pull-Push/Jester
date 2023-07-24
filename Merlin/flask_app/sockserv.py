@@ -12,15 +12,17 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn, addr):
-    print(f"[NEW CONNECTION] {ADDR} connected")
     connected = True
+    print(f"[NEW CONNECTION] {addr} connected")
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length)
-        msg = conn.recv(msg_length).decode(FORMAT)
-        print(f"[{ADDR}] {msg}")
-        if msg == DISCONNECT_MSG:
-            connected = False
+        if msg_length: #CHECKS TO SEE IF LENGTH OF MESSAGE IS NONE
+            msg_length = int(msg_length)
+            msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MSG:
+                connected = False
+            print(f"[{addr}] {msg}")
+            conn.send("Msg received".encode(FORMAT))
     conn.close()
 
 def start():
@@ -30,6 +32,6 @@ def start():
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount()-1}")
+        print(f"[ACTIVE CONNECTIONS] {threading.active_count()-1}")
 
 start()
