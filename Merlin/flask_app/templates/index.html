@@ -1,30 +1,32 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merlin Chat</title>
-</head>
-<body>
-    <h1>welcome to Merlin</h1>
-    <form action="/new/user" method="POST">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password">
-        <label for="age">I Certify I Am Over The Age Of 18:</label>
-        <input type="checkbox" name="age" id="age" required >
-        <input type="submit" value="Register">
-    </form>
-    <form action="/login/user" method="POST">
-        <label for="email">Email:</label>
-        <input type="text" name="email" id="email">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
-        <input type="submit" value="Log In">
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="index">
+    <h1 class="logo">Welcome to Merlin</h1>
+    <div class="container">
+        <div class="reg">
+            <h2>Register</h2>
+            <form action="/new/user" method="POST" class="menu">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password">
+                <label for="age">I Certify I Am Over The Age Of 18:</label>
+                <input type="checkbox" name="age" id="age" required >
+                <button type="submit" class="buttons, regbut">Register</button>
+            </form>
+        </div>
+        <div class="log">
+            <h2>Log In</h2>
+            <form action="/login/user" method="POST" class="menu">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <button type="submit" class="buttons, logbut">Log In</button>    
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
