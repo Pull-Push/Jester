@@ -2,6 +2,13 @@
 {% block content %}
 <div class="message-box">
     <h2>Chat Room: {{room}}</h2>
+    <div class="encrypt">
+        <input type="number" name="shift" id="shift" placeholder="Key Shift">
+        <input type="text" name="seed1" id="seed1" placeholder="Code Word 1">
+        <input type="text" name="seed2" id="seed2" placeholder="Code Word 2">
+        <input type="text" name="seed3" id="seed3" placeholder="Code Word 3">
+        <button type="button" name="encrypt" id="encrypt-btn" onclick="encyptionOn()">Enable Encryption</button>
+    </div>
     <div class="messages" id="messages"></div>
     <div class="inputs">
         <input type="text" name="message" rows="3" placeholder="Message" id="message">
@@ -37,6 +44,17 @@
         socketio.emit("message", {data: message.value})
         message.value = "";
     };
+
+    const encyptionOn = () => {
+        let cypher = {
+            "shift": document.getElementById("shift"),
+            "seed1" : document.getElementById("seed1"),
+            "seed2" :document.getElementById("seed2"),
+            "seed3" : document.getElementById("seed3")
+        }
+        
+    }
+
 </script>
 {% for msg in messages %}
     <script type="text/javascript">

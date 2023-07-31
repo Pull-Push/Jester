@@ -3,6 +3,8 @@ from flask import render_template, request, redirect, session, url_for
 from flask_socketio import join_room, leave_room, send
 import random
 from string import ascii_uppercase
+from flask_app.controllers import encrypt_controller
+
 
 socketio = SocketIO(app)
 
@@ -91,6 +93,9 @@ def message(data):
         "name": session.get("name"),
         "message": data['data']
     }
+
+    
+
 
     send(content, to=room)
     rooms[room]['messages'].append(content)
