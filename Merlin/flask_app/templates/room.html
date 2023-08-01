@@ -7,19 +7,22 @@
         <input type="text" name="seed1" id="seed1" placeholder="Code Word 1">
         <input type="text" name="seed2" id="seed2" placeholder="Code Word 2">
         <input type="text" name="seed3" id="seed3" placeholder="Code Word 3">
-        <button type="button" name="encrypt" id="encrypt-btn" onclick="encyptionOn()">Enable Encryption</button>
+        <input type="text" name="toenc" id="toenc" placeholder="Message To Encode" rows="3">
+        <button type="button" name="encrypt" id="encrypt-btn" onclick="encrypt()">Encode Message</button>
+    </div>
+    <div class="decrypt">
+        <input type="text" name="todec" id="todec" placeholder="Message To Decode" rows="3">
+        <button type="button" name='decrypt' id="decrypt-btn" onclick="decrypt()">Decode Message</button>
     </div>
     <div class="messages" id="messages"></div>
     <div class="inputs">
-        <input type="text" name="message" rows="3" placeholder="Message" id="message">
-        <button type="button" name="send" id="send-btn" onclick="sendMessage()">Send Message</button>
+        <input type="text" name="message" rows="3" placeholder="Clear Message" id="message">
+        <button type="button" name="send" id="send-btn" onclick="sendMessage()">Send Clear Message</button>
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">
     var socketio = io();
-
     const messages = document.getElementById("messages")
-    
     const createMessage = (name, msg) => {
         const content = `
         <div class="text">
@@ -33,9 +36,56 @@
         `
         messages.innerHTML += content;
     };
+
+    const encrypt = () => {
+        let cypher = {
+            "shift": document.getElementById("shift").value,
+            "seed1" : document.getElementById("seed1").value,
+            "seed2" :document.getElementById("seed2").value,
+            "seed3" : document.getElementById("seed3").value,
+            "message": document.getElementById('toenc').value
+        };
+        $.ajax({
+            url: '/encrypt',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ 'key': cypher }),
+            success: function(response) {
+                console.log("Sent to Backend");
+                socketio.emit("message", {data: response})
+                toenc.value = "";
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    const decrypt = () => {
+        let cypher = {
+            "shift": document.getElementById("shift").value,
+            "seed1" : document.getElementById("seed1").value,
+            "seed2" :document.getElementById("seed2").value,
+            "seed3" : document.getElementById("seed3").value,
+            "message": document.getElementById('todec').value
+        };
+        $.ajax({
+            url: '/decrypt',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ 'key': cypher }),
+            success: function(response) {
+                console.log("Sent to Backend");
+                socketio.emit("message", {data: response})
+                todec.value = "";
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
     socketio.on("message", (data) =>{
         createMessage(data.name, data.message);
-        console.log(data.message)
     });
 
     const sendMessage = () => {
@@ -44,16 +94,6 @@
         socketio.emit("message", {data: message.value})
         message.value = "";
     };
-
-    const encyptionOn = () => {
-        let cypher = {
-            "shift": document.getElementById("shift"),
-            "seed1" : document.getElementById("seed1"),
-            "seed2" :document.getElementById("seed2"),
-            "seed3" : document.getElementById("seed3")
-        }
-        
-    }
 
 </script>
 {% for msg in messages %}
