@@ -2,7 +2,6 @@ from flask_app import app, SocketIO
 from flask import render_template, request, redirect, session, url_for, jsonify
 from pprint import pprint
 import string
-#! NEED TO CHANGE ASCII PRINTABLE TO UPPER, LOWER, NUMBERS, PUNCT
 import random
 
 
@@ -33,8 +32,7 @@ def setKey(shift, seed1, seed2, seed3):
     dataSet = [[],[],[],[]]
     sortList = []
     sortDict = {0:{},1:{},2:{},3:{}}
-    alpha = string.ascii_letters + str(string.digits) + str(string.punctuation)
-
+    
     setUp = {0:{" ": ""},
     1:{" ": ""},
     2:{" ": ""},
@@ -43,17 +41,15 @@ def setKey(shift, seed1, seed2, seed3):
     master = {}
     
     for j in setUp:
-        for x in str(alpha):
+        for x in string.printable:
             setUp[j][x] = ""
     
     #! INSERT KEY SHIFTING HERE - AFTER EACH INPUT MESSAGE
     for y in range(len(inputSet)):
         random.seed(inputSet[y])
-        for i in range(len(alpha)):
+        for i in range(len(string.printable)):
             dataSet[y].append(random.random())
-    pprint(dataSet)
-    pprint(setUp)
-    ##!START HERE!!!
+
     for z in range(len(setUp)):
     #< Generate Random Numbers for each Letter
         for key, val in zip(setUp[z], dataSet[z]):
