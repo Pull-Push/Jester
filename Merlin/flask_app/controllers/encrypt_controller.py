@@ -33,6 +33,8 @@ def setKey(shift, seed1, seed2, seed3):
     sortList = []
     sortDict = {0:{},1:{},2:{},3:{}}
     
+    alpha = string.digits + string.ascii_letters + string.punctuation
+
     setUp = {0:{" ": ""},
     1:{" ": ""},
     2:{" ": ""},
@@ -41,31 +43,42 @@ def setKey(shift, seed1, seed2, seed3):
     master = {}
     
     for j in setUp:
-        for x in string.printable:
+        for x in alpha:
             setUp[j][x] = ""
-    
+
+    #todo for j in setUp:
+        #todo for x in string.printable:
+            #todo setUp[j][x] = ""
+
     #! INSERT KEY SHIFTING HERE - AFTER EACH INPUT MESSAGE
     for y in range(len(inputSet)):
         random.seed(inputSet[y])
-        for i in range(len(string.printable)):
+        for i in range(len(alpha)+1):
             dataSet[y].append(random.random())
+    
+    #todo for y in range(len(inputSet)):
+    #todo     random.seed(inputSet[y])
+    # todo    for i in range(len(string.printable)):
+    #todo         dataSet[y].append(random.random())
+    #todo pprint(dataSet)
 
     for z in range(len(setUp)):
     #< Generate Random Numbers for each Letter
         for key, val in zip(setUp[z], dataSet[z]):
             setUp[z][key] = val
         marklist=sorted((value, key) for (key,value) in setUp[z].items())
-        sortList.append(marklist)
+        sortList.append(marklist) #< TURNS INTO A LIST OF LISTS
 
     #< Turn List into Dictionary
     for i in range(len(sortList)):
         markDict=dict([(v,k) for v,k in sortList[i]])
-        sortDict[i] = markDict
+        sortDict[i] = markDict #< TURNS INTO A DICTIONARY OF DICTIONARIES
+
 
     #< Strip random numbers from Dictionary and merge dicts together
     for i in range(len(setUp)):
         comb = dict(zip(setUp[i].keys(), sortDict[i].values()))
-        master[i] = comb
+        master[i] = comb #< MERGED DICTIONARY OF DICTIONARIES
 
     print('Encry complete')
 
@@ -78,7 +91,7 @@ def encodeMess(message):
     #<loop through each clear character
     output = message
     for i in range(len(secret)):
-        print("running encryption level", i)
+        #print("running encryption level", i)
         temp = ""
         for x in output:
             for key, val in secret[i].items():
@@ -87,19 +100,19 @@ def encodeMess(message):
         output = temp
         global encrypted
         encrypted  = output
-        print("encrypt level ",i," complete....", output )
+        #print("encrypt level ",i," complete....", output )
     return encrypted
 
 def decodeMess(encoded):
     secret = seckey
     output = encoded
     for i in range(len(secret)-1, -1, -1):
-        print("running decryption level", i)
+        #print("running decryption level", i)
         temp = ""
         for x in output:
             for key, val in secret[i].items():
                 if x == val:
                     temp += key
         output = temp
-        print("decrypt level ",i," complete....", output )
+        #print("decrypt level ",i," complete....", output )
     return output
