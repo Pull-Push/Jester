@@ -7,12 +7,16 @@
 html{
     height: 100%;
 }
+.content{
+    height: 100%;
+}
 body{
     background: url(../img/digback.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    height: 100%;
 }
 .nav, .nav-link{
     text-decoration: none;
@@ -25,11 +29,22 @@ justify-content: center;
 gap: 15px;
 }
 
-#maincon{
+.maincon{
     width: 50%;
     margin-top: 15%;
+    height: fit-content;
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 5px 5px 15px black;
     background-color: rgba(150, 150, 150, 0.5);
+}
+
+.lower{
+    width: fit-content;
+    margin: 10px;
+
+}
+
+.message-box{
+    height: 75%;
 }

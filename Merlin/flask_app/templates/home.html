@@ -1,23 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form class="buttons" method="post">
-    <h3>Enter the Chat Room</h3>
-    <div>
-        {% if error %}
-        <ul>
-            <li>{{error}}</li>
-        </ul>
-        {% endif %}
-        <label for="name">Name:</label>
-        <input type="text" placeholder="Pick a Name!" name="name" id="name" value="{{name}}">
-    </div>
-    <div class="join">
-        <label for="code">Enter Room Code:</label>
-        <input type="text" name="code" id="code" value="{{code}}" placeholder="Room Code">
-        <button type="submit" name="join">Join a Room</button>
-    </div>
-    <button type="submit" name="create" class="create">Create a Room</button>
-</form>
-
+<div class="maincon container-fluid">
+    <form  method="post">
+        <h3 class="text-light text-center">Enter the Chat Room</h3>
+        <div>
+            {% if error %}
+            <ul class="list-unstyled">
+                <li class="alert alert-danger">{{error}}</li>
+            </ul>
+            {% endif %}
+            <div class="homeform">
+                <div class="mb-3">
+                <label class="text-light form-label" for="name">Name:</label>
+                <input class="form-control" type="text" placeholder="Pick a Name!" name="name" id="name" value="{{name}}">
+                </div>
+                <div class="mb-3">
+                    <label class="text-light form-label" for="code">Enter Room Code:</label>
+                    <input class="form-control" type="text" name="code" id="code" value="{{code}}" placeholder="Room Code">
+                    <div class="mx-auto lower">
+                    <button class="btn btn-light" type="submit" name="join">Join a Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mx-auto lower">
+        <button class="btn btn-light" type="submit" name="create" class="create">Create a Room</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
