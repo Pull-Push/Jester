@@ -1,29 +1,108 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="message-box maincon">
-    <h2>Chat Room: {{room}}</h2>
-    <div class="encrypt">
-        <input type="number" name="shift" id="shift" placeholder="Key Shift">
-        <input type="text" name="seed1" id="seed1" placeholder="Code Word 1">
-        <input type="text" name="seed2" id="seed2" placeholder="Code Word 2">
-        <input type="text" name="seed3" id="seed3" placeholder="Code Word 3">
-        <input type="text" name="toenc" id="toenc" placeholder="Message To Encode" rows="3">
-        <button type="button" name="encrypt" id="encrypt-btn" onclick="encrypt()">Encode Message</button>
-    </div>
-    <div class="messages" id="messages"></div>
-    <div class="inputs">
-        <input type="text" name="message" rows="3" placeholder="Clear Message" id="message">
-        <button type="button" name="send" id="send-btn" onclick="sendMessage()">Send Clear Message</button>
-    </div>
-</div>
-<div id="lower"> </div>
 
+<h2 class="text-light display-6 text-center" >Merlin Chat Room: {{room}}</h2>
+<div class="encrypt">
+    <input type="number" name="shift" id="shift" placeholder="Key Shift">
+    <input type="text" name="seed1" id="seed1" placeholder="Code Word 1">
+    <input type="text" name="seed2" id="seed2" placeholder="Code Word 2">
+    <input type="text" name="seed3" id="seed3" placeholder="Code Word 3">
 </div>
+<div class="encrypt"> 
+    <input type="text" name="toenc" id="toenc" placeholder="Message To Encode" rows="3">
+    <button class="btn btn-danger" type="submit" name="encrypt" id="encrypt-btn" onclick="encrypt()">Encode Message</button>
+</div>
+<div class="maincon container-fluid message-box">
+    <div class="messages text-light" id="messages">
+        
+    </div>
+</div>
+<div class="inputs">
+    <input  type="text" name="message" rows="3" placeholder="Clear Message" id="message">
+    <button class="btn btn-light" type="submit" name="send" id="send-btn" onclick="sendMessage()">Send Clear Message</button>
+</div>
+
+<script>
+    var socketio = io();
+const messages = document.getElementById("messages")
+const createMessage = (name, msg) => {
+    const content = `
+    <div class="text">
+        <span>
+            <strong>${name}</strong>: <span id="single" onclick="decrypt(this)">${msg}</span>
+            </span>
+            <span class="muted">
+                ${new Date().toLocaleString()}
+                </span>
+        </div>
+    `
+    messages.innerHTML += content;
+};
+
+const encrypt = () => {
+    let cypher = {
+        "shift": document.getElementById("shift").value,
+        "seed1": document.getElementById("seed1").value,
+        "seed2": document.getElementById("seed2").value,
+        "seed3": document.getElementById("seed3").value,
+        "message": document.getElementById('toenc').value
+    };
+    $.ajax({
+        url: '/encrypt',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ 'key': cypher }),
+        success: function (response) {
+            console.log("Sent to Backend");
+            socketio.emit("message", { data: response })
+            toenc.value = "";
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+const decrypt = (text) => {
+    let cypher = {
+        "shift": document.getElementById("shift").value,
+        "seed1": document.getElementById("seed1").value,
+        "seed2": document.getElementById("seed2").value,
+        "seed3": document.getElementById("seed3").value,
+        "message": text.innerHTML
+    };
+    $.ajax({
+        url: '/decrypt',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ 'key': cypher }),
+        success: function (response) {
+            console.log("Sent to Backend");
+            // socketio.emit("message", {data: response})
+            // console.log(response)
+            document.getElementById('lower').innerHTML = response
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+socketio.on("message", (data) => {
+    createMessage(data.name, data.message);
+});
+
+const sendMessage = () => {
+    const message = document.getElementById("message")
+    if (message.value == "") return;
+    socketio.emit("message", { data: message.value })
+    message.value = "";
+};
+</script>
 
 {% for msg in messages %}
-    <script type="text/javascript">
-        createMessage("{{msg.name}}","{{msg.message}}")
-    </script>
+<script type="text/javascript">
+    createMessage("{{msg.name}}","{{msg.message}}")
+</script> 
 {% endfor %}
 
 

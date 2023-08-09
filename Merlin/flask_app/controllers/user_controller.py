@@ -13,6 +13,10 @@ def index():
 # def dash():
 #     return render_template('dashboard.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 @app.route('/new/user', methods=['POST'])
 def register():

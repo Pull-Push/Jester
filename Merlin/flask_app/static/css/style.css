@@ -39,12 +39,36 @@ gap: 15px;
     background-color: rgba(150, 150, 150, 0.5);
 }
 
-.lower{
+.inputs{
+    display: flex;
     width: fit-content;
-    margin: 10px;
-
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px auto;
+    gap: 15px;
 }
 
+
+.lower{
+    width: fit-content;
+    margin: 10px auto;
+
+}
 .message-box{
-    height: 75%;
+    height: 66%;
+    margin: 0% auto;
+    overflow-y: scroll;
+
+}
+.encrypt{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.muted{
+    color: darkgray;
+    float: right;
+
 }
