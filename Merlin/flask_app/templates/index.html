@@ -1,32 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="">
-        <h1 class="">Welcome to <span class="text-green-600">Merlin</span></h1>
-        <div class="container">
-                    <h2>Register</h2>
-                <form action="/new/user" method="POST" class="menu">
-                    <label for="email" class="">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="Enter Your Email">
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" id="username">
-                    <label for="regpassword">Password:</label>
-                    <input type="password" name="password" id="password">
-                    <label for="age">I Certify I Am Over The Age Of 18:</label>
-                    <input type="checkbox" name="age" id="age" required >
-                    <button type="submit" class="buttons, regbut">Register</button>
-                </form>
-        </div>
-        <div class="container">
-                <h2>Log In</h2>
-                <form action="/login/user" method="POST" class="menu">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" id="email">
-                    <label for="logpassword">Password</label>
-                    <input type="password" name="password" id="password">
-                    <button type="submit" class="buttons, logbut">Log In</button>    
-                </form>
-        </div>        
-    </div>
+<div class="container-fluid h-100">
+    <header class="mb-auto">
+        <nav>
+                <ul class="nav justify-content-end ">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">MERLIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+        </nav>
+    </header>
 
+    <div id="maincon" class="px-3 mx-auto text-center">
+        <h1 class="display-2 text-light">Welcome to Merlin</h1>
+        <div class="buttons">
+        <p class="lead"> <a href="/dashboard" class="btn btn-lg btn-light fw-bold border-white bg-white">Chat Now</a></p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
+        </p>
+        </div>
+    </div>
+</div>
 {% endblock %}
