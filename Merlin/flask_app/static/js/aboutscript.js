@@ -1,4 +1,3 @@
-
 // set up text to print, each item in array is new line
 var aText = new Array(
     "Dive into a world where cutting-edge encryption meets historical intrigue. Our revolutionary chat website employs a custom algorithm inspired by the legendary German Enigma machine, weaving together the past and the present to safeguard your messages with unbreakable layers of security. Experience the thrill of secret communication as you harness the power of Merlin's modern innovation and historical inspiration. Join us today and unlock the future of encrypted conversations!"
